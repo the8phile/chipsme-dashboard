@@ -1972,7 +1972,7 @@ const ChipMeOffline = (function() {
             'display:flex','align-items:center','justify-content:center',
             'border:2px solid #07090F'
           ].join(';');
-          fab.style.position = 'relative';
+          fab.style.position = 'fixed'; // keep fixed!
           fab.appendChild(badge);
         }
         badge.textContent = total;
