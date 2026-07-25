@@ -3777,162 +3777,182 @@ Value:    AIza...your-key-here...</pre>
 <!-- ══ SETTINGS PAGE ══ -->
 <div id="page-settings" class="page">
 
-  <!-- Profile Hero -->
-  <div style="background:linear-gradient(135deg,rgba(108,99,255,.12),rgba(0,214,143,.08));border:1px solid rgba(108,99,255,.18);border-radius:18px;padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:18px;position:relative;overflow:hidden">
-    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,214,143,.05),transparent 70%);pointer-events:none"></div>
-    <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#6C63FF,#00D68F);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 0 24px rgba(108,99,255,.3)">TN</div>
-    <div style="flex:1;min-width:0">
-      <div style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.4px" id="st-name">Theophile Nguele</div>
-      <div style="font-size:12px;color:var(--text3);margin-top:3px" id="st-email">ngueletheophile7@gmail.com · Douala, Cameroon</div>
-      <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:6px">ChipsMe Business Dashboard</div>
-    </div>
-    <button onclick="editProfile()" style="padding:8px 16px;border-radius:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">✏ Edit</button>
-  </div>
-
-  <!-- DATA & SYNC -->
-  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px">Data &amp; Sync</div>
-  <div class="glass" style="margin-bottom:14px;padding:0">
-    <div class="st-row" onclick="openSetup()">
-      <div class="st-icon" style="background:rgba(0,214,143,.1)">📡</div>
-      <div class="st-body"><div class="st-title">Google Sheet Connection</div><div class="st-sub" id="st-sheet-status">Checking...</div></div>
-      <div class="st-right"><span class="tag tg" id="st-conn-badge">Connected</span><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="changeSyncInterval()">
-      <div class="st-icon" style="background:rgba(108,99,255,.1)">⏱</div>
-      <div class="st-body"><div class="st-title">Auto-Sync Interval</div><div class="st-sub">Background sync frequency</div></div>
-      <div class="st-right"><span class="tag tm" id="st-sync-interval">6 min</span><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="clearCache()">
-      <div class="st-icon" style="background:rgba(59,130,246,.1)">🗄</div>
-      <div class="st-body"><div class="st-title">Cached Data</div><div class="st-sub" id="st-cache-info">Loading...</div></div>
-      <div class="st-right"><span style="font-size:11px;color:var(--red);font-weight:600;cursor:pointer">Clear</span></div>
-    </div>
-  </div>
-
-  <!-- BUSINESS INFO -->
-  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px">Business Info</div>
-  <div class="glass" style="margin-bottom:14px;padding:0">
-    <div class="st-row" onclick="editBizName()">
-      <div class="st-icon" style="background:rgba(245,158,11,.1)">🏢</div>
-      <div class="st-body"><div class="st-title">Business Name</div><div class="st-sub" id="st-biz-name">ChipsMe</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="editGoal()">
-      <div class="st-icon" style="background:rgba(0,214,143,.1)">🎯</div>
-      <div class="st-body"><div class="st-title">Monthly Revenue Goal</div><div class="st-sub" id="st-goal-val">150,000 FCFA</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="editLoan()">
-      <div class="st-icon" style="background:rgba(108,99,255,.1)">🏦</div>
-      <div class="st-body"><div class="st-title">Loan Target</div><div class="st-sub" id="st-loan-val">300,000 FCFA · 15,000/week</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="editOwner()">
-      <div class="st-icon" style="background:rgba(59,130,246,.1)">📍</div>
-      <div class="st-body"><div class="st-title">Location</div><div class="st-sub" id="st-location">Douala, Cameroon</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="manageSuppliers()">
-      <div class="st-icon" style="background:rgba(0,214,143,.1)">📞</div>
-      <div class="st-body"><div class="st-title">Suppliers (WhatsApp Reorder)</div><div class="st-sub" id="st-suppliers-sub">Manage supplier contacts</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-  </div>
-
-  <!-- APPEARANCE -->
-  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px">Appearance</div>
-  <div class="glass" style="margin-bottom:14px;padding:0">
-    <div class="st-row" onclick="toggleTheme()">
-      <div class="st-icon" style="background:rgba(255,255,255,.06)" id="st-theme-icon">🌙</div>
-      <div class="st-body"><div class="st-title">Theme</div><div class="st-sub" id="st-theme-sub">Dark mode</div></div>
-      <div class="st-right"><span class="tag tm" id="st-theme-badge">DARK</span><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="toggleLang()">
-      <div class="st-icon" style="background:rgba(255,255,255,.06)">🌐</div>
-      <div class="st-body"><div class="st-title">Language</div><div class="st-sub">English / Français</div></div>
-      <div class="st-right"><span class="tag tp" id="st-lang-badge">EN</span><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="toggleSplash()">
-      <div class="st-icon" style="background:rgba(255,255,255,.06)">✨</div>
-      <div class="st-body"><div class="st-title">Splash Screen</div><div class="st-sub">Show ChipsMe logo on load</div></div>
-      <div class="st-right"><div class="st-toggle" id="toggle-splash" onclick="event.stopPropagation();toggleSplash()"></div></div>
-    </div>
-    <div class="st-row" onclick="toggleNotifs()">
-      <div class="st-icon" style="background:rgba(255,255,255,.06)">🔔</div>
-      <div class="st-body"><div class="st-title">Email Notifications</div><div class="st-sub">Daily reports &amp; low stock alerts</div></div>
-      <div class="st-right"><div class="st-toggle on" id="toggle-notifs" onclick="event.stopPropagation();toggleNotifs()"></div></div>
-    </div>
-  </div>
-
-  <!-- REPORTS & EMAIL -->
-  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px">Reports &amp; Email</div>
-  <div class="glass" style="margin-bottom:14px;padding:0">
-    <div class="st-row" onclick="toggleReportEnabled()">
-      <div class="st-icon" style="background:rgba(0,214,143,.1)">📬</div>
-      <div class="st-body"><div class="st-title">Weekly Email Report</div><div class="st-sub" id="rp-status-sub">Get a full business report every Saturday</div></div>
-      <div class="st-right">
-        <label class="rp-switch" onclick="event.stopPropagation()">
-          <input type="checkbox" id="rp-toggle" onchange="setReportEnabled(this.checked)">
-          <span class="rp-slider"></span>
-        </label>
+<!-- Profile Card -->
+<div style="background:linear-gradient(135deg,#0F172A,#111827);border:1px solid #1E293B;border-radius:20px;padding:28px;margin-bottom:24px;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(0,214,143,.06);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:rgba(108,99,255,.05);pointer-events:none"></div>
+  <div style="display:flex;align-items:center;gap:20px;position:relative">
+    <div style="position:relative;flex-shrink:0">
+      <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#6C63FF,#00D68F);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff">TN</div>
+      <div style="position:absolute;bottom:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:#00D68F;border:2px solid #0F172A;display:flex;align-items:center;justify-content:center">
+        <div style="width:6px;height:6px;border-radius:50%;background:#fff"></div>
       </div>
     </div>
-    <div class="st-row" onclick="editReportRecipient()">
-      <div class="st-icon" style="background:rgba(59,130,246,.1)">✉</div>
-      <div class="st-body"><div class="st-title">Recipient</div><div class="st-sub" id="rp-recipient-sub">Not set</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:20px;font-weight:800;color:#F1F5F9;letter-spacing:-.4px" id="st-name">Theophile Nguele</div>
+      <div style="font-size:12px;color:#475569;margin-top:4px" id="st-email">ngueletheophile7@gmail.com · Douala, Cameroon</div>
+      <div style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.2);border-radius:20px;padding:3px 10px">
+        <div style="width:6px;height:6px;border-radius:50%;background:#00D68F"></div>
+        <span style="font-size:11px;color:#00D68F;font-weight:600">ChipsMe Business Dashboard</span>
+      </div>
     </div>
-    <div class="st-row" onclick="changeReportSchedule()">
-      <div class="st-icon" style="background:rgba(108,99,255,.1)">📅</div>
-      <div class="st-body"><div class="st-title">Send Schedule</div><div class="st-sub" id="rp-schedule-sub">Every Saturday at 8:00 AM</div></div>
-      <div class="st-right"><span class="tag tm" id="rp-schedule-tag">SAT 08:00</span><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="editReportSections()">
-      <div class="st-icon" style="background:rgba(245,158,11,.1)">📊</div>
-      <div class="st-body"><div class="st-title">What's Included</div><div class="st-sub" id="rp-sections-sub">AI summary, KPIs, insights, top customers, expenses</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="previewReport()">
-      <div class="st-icon" style="background:rgba(124,92,255,.1)">👁</div>
-      <div class="st-body"><div class="st-title">Preview Report</div><div class="st-sub">See exactly what will arrive in your inbox</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="sendTestReport()">
-      <div class="st-icon" style="background:rgba(244,63,94,.1)">🚀</div>
-      <div class="st-body"><div class="st-title">Send Test Now</div><div class="st-sub" id="rp-test-sub">Send a sample report to your inbox right now</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="openReportSetup()">
-      <div class="st-icon" style="background:rgba(255,255,255,.04)">⚙</div>
-      <div class="st-body"><div class="st-title">Setup Apps Script</div><div class="st-sub">View the code to paste in your Apps Script</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
+    <button onclick="editProfile()" style="padding:10px 18px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94A3B8;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;flex-shrink:0;white-space:nowrap" onmouseover="this.style.background='rgba(255,255,255,.12)';this.style.color='#F1F5F9'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='#94A3B8'">&#9998; Edit</button>
   </div>
+</div>
 
-  <!-- ABOUT -->
-  <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:0 4px;margin-bottom:8px">About &amp; Tools</div>
-  <div class="glass" style="margin-bottom:14px;padding:0">
-    <div class="st-row" onclick="openSetup()">
-      <div class="st-icon" style="background:rgba(59,130,246,.1)">📋</div>
-      <div class="st-body"><div class="st-title">Apps Script Setup Guide</div><div class="st-sub">Connect your Google Sheet</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="exportData()">
-      <div class="st-icon" style="background:rgba(0,214,143,.1)">📤</div>
-      <div class="st-body"><div class="st-title">Export Data</div><div class="st-sub">Download all sales as CSV</div></div>
-      <div class="st-right"><span class="st-arrow">›</span></div>
-    </div>
-    <div class="st-row" onclick="confirmReset()">
-      <div class="st-icon" style="background:rgba(244,63,94,.1)">🗑</div>
-      <div class="st-body"><div class="st-title" style="color:var(--red)">Reset All Settings</div><div class="st-sub">Clear layout, cache &amp; preferences</div></div>
-      <div class="st-right"><span class="st-arrow" style="color:var(--red)">›</span></div>
-    </div>
+<!-- Stats Bar -->
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px">
+  <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+    <div style="font-size:20px;font-weight:800;color:#00D68F;font-family:monospace" id="st-stat-rev">—</div>
+    <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Revenue</div>
   </div>
+  <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+    <div style="font-size:20px;font-weight:800;color:#6C63FF;font-family:monospace" id="st-stat-tx">—</div>
+    <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Transactions</div>
+  </div>
+  <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+    <div style="font-size:20px;font-weight:800;color:#F59E0B;font-family:monospace" id="st-stat-goal">—</div>
+    <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Goal</div>
+  </div>
+</div>
 
-  <!-- Version -->
-  <div style="text-align:center;font-size:11px;color:var(--text3);padding:8px 0 20px;letter-spacing:.3px">
-    ChipsMe Dashboard · Built with Claude · v1.0 · Douala, Cameroon
+<!-- Section: Data & Sync -->
+<div style="font-size:11px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;padding-left:4px">Data &amp; Sync</div>
+<div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+  <div class="st-row" onclick="openSetup()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128225;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Google Sheet Connection</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-sheet-status">Apps Script URL · Sheet8</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(0,214,143,.12);color:#00D68F;border:1px solid rgba(0,214,143,.2)" id="st-conn-badge">Connected</span><span style="color:#334155;font-size:18px">&#8250;</span></div>
   </div>
+  <div class="st-row" onclick="changeSyncInterval()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(108,99,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#9202;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Auto-Sync Interval</div><div style="font-size:12px;color:#475569;margin-top:2px">Background sync frequency</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(108,99,255,.12);color:#6C63FF;border:1px solid rgba(108,99,255,.2)" id="st-sync-interval">6 min</span><span style="color:#334155;font-size:18px">&#8250;</span></div>
+  </div>
+  <div class="st-row" onclick="clearCache()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128452;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Cached Data</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-cache-info">Loading...</div></div>
+    <span style="font-size:12px;color:#F43F5E;font-weight:600;cursor:pointer">Clear</span>
+  </div>
+</div>
+
+<!-- Section: Business Info -->
+<div style="font-size:11px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;padding-left:4px">Business Info</div>
+<div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+  <div class="st-row" onclick="editBizName()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(245,158,11,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#127962;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Business Name</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-biz-name">ChipsMe</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="editGoal()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#127919;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Monthly Revenue Goal</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-goal-val">300,000 FCFA per month</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="editLoan()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(108,99,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#127970;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Loan Target</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-loan-val">300,000 FCFA · 15,000/week</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="editOwner()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128205;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Location</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-location">Douala, Cameroon</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="manageSuppliers()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128222;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Suppliers (WhatsApp Reorder)</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-suppliers-sub">Manage supplier contacts</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+</div>
+
+<!-- Section: Appearance -->
+<div style="font-size:11px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;padding-left:4px">Appearance</div>
+<div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+  <div class="st-row" onclick="toggleTheme()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0" id="st-theme-icon">&#127769;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Theme</div><div style="font-size:12px;color:#475569;margin-top:2px" id="st-theme-sub">Dark mode</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(108,99,255,.12);color:#6C63FF;border:1px solid rgba(108,99,255,.2)" id="st-theme-badge">DARK</span><span style="color:#334155;font-size:18px">&#8250;</span></div>
+  </div>
+  <div class="st-row" onclick="toggleLang()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#127760;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Language</div><div style="font-size:12px;color:#475569;margin-top:2px">English / Fran&#231;ais</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(108,99,255,.12);color:#6C63FF;border:1px solid rgba(108,99,255,.2)" id="st-lang-badge">EN</span><span style="color:#334155;font-size:18px">&#8250;</span></div>
+  </div>
+  <div class="st-row" onclick="toggleSplash()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#10024;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Splash Screen</div><div style="font-size:12px;color:#475569;margin-top:2px">Show ChipsMe logo on load</div></div>
+    <div class="st-toggle" id="toggle-splash" onclick="event.stopPropagation();toggleSplash()"></div>
+  </div>
+  <div class="st-row" onclick="toggleNotifs()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128276;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Email Notifications</div><div style="font-size:12px;color:#475569;margin-top:2px">Daily reports &amp; low stock alerts</div></div>
+    <div class="st-toggle on" id="toggle-notifs" onclick="event.stopPropagation();toggleNotifs()"></div>
+  </div>
+</div>
+
+<!-- Section: Reports & Email -->
+<div style="font-size:11px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;padding-left:4px">Reports &amp; Email</div>
+<div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+  <div class="st-row" onclick="toggleReportEnabled()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128236;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Weekly Email Report</div><div style="font-size:12px;color:#475569;margin-top:2px" id="rp-status-sub">Get a full business report every Saturday</div></div>
+    <label class="rp-switch" onclick="event.stopPropagation()"><input type="checkbox" id="rp-toggle" onchange="setReportEnabled(this.checked)"><span class="rp-slider"></span></label>
+  </div>
+  <div class="st-row" onclick="editReportRecipient()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#9993;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Recipient</div><div style="font-size:12px;color:#475569;margin-top:2px" id="rp-recipient-sub">Not set</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="changeReportSchedule()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(108,99,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128197;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Send Schedule</div><div style="font-size:12px;color:#475569;margin-top:2px" id="rp-schedule-sub">Every Saturday at 8:00 AM</div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(108,99,255,.12);color:#6C63FF;border:1px solid rgba(108,99,255,.2)" id="rp-schedule-tag">SAT 08:00</span><span style="color:#334155;font-size:18px">&#8250;</span></div>
+  </div>
+  <div class="st-row" onclick="previewReport()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(124,92,255,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128065;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Preview Report</div><div style="font-size:12px;color:#475569;margin-top:2px">See exactly what arrives in your inbox</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="sendTestReport()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128640;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Send Test Now</div><div style="font-size:12px;color:#475569;margin-top:2px" id="rp-test-sub">Send a sample report to your inbox</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="openReportSetup()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#9881;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Setup Apps Script</div><div style="font-size:12px;color:#475569;margin-top:2px">View code to paste in Apps Script</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+</div>
+
+<!-- Section: Tools -->
+<div style="font-size:11px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;padding-left:4px">About &amp; Tools</div>
+<div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+  <div class="st-row" onclick="openSetup()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128203;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Apps Script Setup Guide</div><div style="font-size:12px;color:#475569;margin-top:2px">Connect your Google Sheet</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="exportData()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;border-bottom:1px solid #1E293B;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(0,214,143,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128228;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F1F5F9">Export Data</div><div style="font-size:12px;color:#475569;margin-top:2px">Download all sales as CSV</div></div>
+    <span style="color:#334155;font-size:18px">&#8250;</span>
+  </div>
+  <div class="st-row" onclick="confirmReset()" style="display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(244,63,94,.04)'" onmouseout="this.style.background='transparent'">
+    <div style="width:40px;height:40px;border-radius:12px;background:rgba(244,63,94,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">&#128465;</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#F43F5E">Reset All Settings</div><div style="font-size:12px;color:#475569;margin-top:2px">Clear layout, cache &amp; preferences</div></div>
+    <span style="color:#F43F5E;font-size:18px">&#8250;</span>
+  </div>
+</div>
+
+<!-- Version Footer -->
+<div style="text-align:center;padding:16px 0 32px">
+  <div style="display:inline-flex;align-items:center;gap:8px;background:#0F172A;border:1px solid #1E293B;border-radius:20px;padding:8px 20px">
+    <div style="width:8px;height:8px;border-radius:50%;background:#00D68F"></div>
+    <span style="font-size:12px;color:#475569">ChipsMe Dashboard · Built with Claude · v1.0 · Douala, Cameroon</span>
+  </div>
+</div>
 
 </div><!-- /page-settings -->
 
@@ -8332,6 +8352,21 @@ function renderSettings() {
   // Language badge
   var lb = $('st-lang-badge');
   if(lb) lb.textContent = lang === 'fr' ? 'FR' : 'EN';
+  // Stats bar
+  try {
+    var MNs=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var totR=0,totT=0;
+    if(typeof S!=='undefined')S.forEach(function(s){totR+=(s.revenue||0);totT++;});
+    var curMK=MNs[new Date().getMonth()]+' '+new Date().getFullYear();
+    var curR=0;
+    if(typeof S!=='undefined')S.forEach(function(s){var mm=String(s.date||'').match(/(\w{3})-(\d{4})/);if(mm&&mm[1]+' '+mm[2]===curMK)curR+=(s.revenue||0);});
+    var gPct=goalTarget>0?Math.min(100,Math.round(curR/goalTarget*100)):0;
+    function fmtSt(n){n=Math.round(n);if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return Math.round(n/1000)+'k';return n;}
+    var sr=$('st-stat-rev'),st=$('st-stat-tx'),sg=$('st-stat-goal');
+    if(sr)sr.textContent=fmtSt(totR)+' F';
+    if(st)st.textContent=totT;
+    if(sg)sg.textContent=gPct+'%';
+  } catch(e){}
   // Toggles
   var ts = $('toggle-splash');
   var tn = $('toggle-notifs');
