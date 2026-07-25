@@ -8281,9 +8281,9 @@ function nav(id, btn) {
       if(id==='assets')    renderAssetsPage();
       if(id==='settings') {
         renderSettings();
-        // Force repaint in case of display:none animation issue
+        // Ensure settings is visible
         var sp = $('page-settings');
-        if(sp) { sp.style.opacity='0'; setTimeout(function(){ sp.style.opacity='1'; sp.style.transition='opacity .3s'; },10); }
+        if(sp) { sp.style.opacity='1'; sp.style.display='block'; }
       }
     } catch(e){ console.warn('nav render:', e); }
   }, 50);
