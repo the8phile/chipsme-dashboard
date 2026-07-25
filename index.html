@@ -2643,7 +2643,7 @@ Value:    AIza...your-key-here...</pre>
       <div style="display:flex;gap:12px">
         <div style="width:26px;height:26px;border-radius:50%;background:#00E5A0;color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px">4</div>
         <div><div style="font-size:13px;font-weight:600;color:#E8EDF5;margin-bottom:6px">Paste your Web App URL here:</div>
-          <input type="text" id="apps-script-input" placeholder="https://script.google.com/macros/s/..." value="https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec" style="width:100%;padding:10px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:#080B12;color:#E8EDF5;font-family:'Space Mono',monospace;font-size:12px;outline:none">
+          <input type="text" id="apps-script-input" placeholder="https://script.google.com/macros/s/..." value="https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec" style="width:100%;padding:10px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:#080B12;color:#E8EDF5;font-family:'Space Mono',monospace;font-size:12px;outline:none">
         </div>
       </div>
     </div>
@@ -7367,7 +7367,7 @@ function renderLoan(){
    XHR is the most compatible API — works everywhere.
 */
 const APPS_SCRIPT_KEY  = 'cm_apps_script_url';
-const APPS_URL_BAKED   = 'https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec';
+const APPS_URL_BAKED   = 'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
 const SHEET_CSV_URL    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbxUmHRQ5qJy-G8PIF4Qw3vHqOkE9zAxCv3TCYPiLEaSYU1_RnRGayAao4yEfIoTMC_De7T6-whB1x/pub?gid=93281456&single=true&output=csv';
 let appsScriptUrl = localStorage.getItem(APPS_SCRIPT_KEY) || APPS_URL_BAKED;
 let syncRetryCount = 0;
@@ -8747,9 +8747,9 @@ window.addEventListener('DOMContentLoaded', function() {
   set('psub', greet + ' - ' + now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long',year:'numeric'}));
 
   if(!localStorage.getItem(APPS_SCRIPT_KEY)) {
-    localStorage.setItem(APPS_SCRIPT_KEY, 'https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec');
+    localStorage.setItem(APPS_SCRIPT_KEY, 'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec');
   }
-  appsScriptUrl = localStorage.getItem(APPS_SCRIPT_KEY) || 'https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec';
+  appsScriptUrl = localStorage.getItem(APPS_SCRIPT_KEY) || 'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
 
   var dateInput = $('inv-date'); if(dateInput) dateInput.value = now.toISOString().split('T')[0];
   var numInput = $('inv-num'); if(numInput) numInput.value = 'INV-' + String(Math.floor(Math.random()*900)+100);
@@ -8952,7 +8952,7 @@ function getMonthCount() {
 
 /* ════ OFFLINE PWA INIT ════ */
 window.addEventListener('DOMContentLoaded', function() {
-  var url = localStorage.getItem('cm_apps_url') || 'https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec';
+  var url = localStorage.getItem('cm_apps_url') || 'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
   ChipMeOffline.init(url);
 });
 
@@ -9095,7 +9095,7 @@ async function submitSale() {
 
 function sendSaleToSheet(data) {
   return new Promise(function(resolve,reject) {
-    var url=localStorage.getItem('cm_apps_url')||'https://script.google.com/macros/s/AKfycbyvkLGB69s5-M_KLAgIwdl3pFIHOMIpBctTVTyOfRAKf4AkycxpZzHyVzTcnouKjLq1hg/exec';
+    var url=localStorage.getItem('cm_apps_url')||'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
     if(!url||url.includes('...')){reject(new Error('No URL'));return;}
     var cb='_sale_'+Date.now();
     var t=setTimeout(function(){
