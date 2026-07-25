@@ -9057,25 +9057,40 @@ async function submitSale() {
   var btn=document.getElementById('sale-submit-btn');
   if(btn){btn.textContent='Saving...';btn.style.opacity='0.7';}
 
-  try {
-    if(navigator.onLine) {
-      await sendSaleToSheet(saleData);
-      ChipMeOffline.showNotification('Sale saved to Google Sheet!','success');
-      if(typeof S!=='undefined'){
-        S.push({date:fmtDate,customer:customer,product:product,
-          packets:packets,revenue:revenue,profit:profit,status:saleStatus});
-        if(typeof renderAll==='function') setTimeout(renderAll,300);
-      }
-    } else {
-      await ChipMeOffline.saveSale(saleData);
-    }
-    closeSaleModal();
-  } catch(e) {
-    console.warn('Online save failed, saving offline:',e);
-    await ChipMeOffline.saveSale(saleData);
-    closeSaleModal();
+  // Step 1: Add to local S array IMMEDIATELY so dashboard updates now
+  var newSale = {
+    date:fmtDate, customer:customer, product:product,
+    packets:packets, revenue:revenue, profit:profit, status:saleStatus
+  };
+  if(typeof S !== 'undefined') {
+    S.push(newSale);
+    // Save to localStorage cache so it persists
+    try {
+      localStorage.setItem('cm_cached_data', JSON.stringify({ts:Date.now(), data:S}));
+    } catch(ex) {}
+    // Re-render dashboard immediately
+    if(typeof renderAll === 'function') setTimeout(renderAll, 100);
+    if(typeof updateKPIsOnly === 'function') setTimeout(updateKPIsOnly, 100);
   }
+  closeSaleModal();
   if(btn){btn.textContent='Save Sale';btn.style.opacity='1';}
+  ChipMeOffline.showNotification('✅ Sale added! Syncing to Google Sheet...','success');
+
+  // Step 2: Push to Google Sheet in background (non-blocking)
+  if(navigator.onLine) {
+    sendSaleToSheet(saleData).then(function() {
+      ChipMeOffline.showNotification('✅ Sale saved to Google Sheet!','success');
+    }).catch(function(e) {
+      // Sheet push failed — save offline for later sync
+      console.warn('Sheet push failed, queuing offline:', e);
+      ChipMeOffline.saveSale(saleData);
+      ChipMeOffline.showNotification('📶 Saved locally — will sync when sheet is ready','warning');
+    });
+  } else {
+    // Offline — queue for later
+    ChipMeOffline.saveSale(saleData);
+    ChipMeOffline.showNotification('💾 Offline — sale queued for sync','warning');
+  }
 }
 
 function sendSaleToSheet(data) {
