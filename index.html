@@ -8355,7 +8355,7 @@ function nav(id, btn) {
       if(id==='insights')  renderInsights();
       if(id==='loan')      renderLoan();
       if(id==='assets')    renderAssetsPage();
-      if(id==='pending')  renderPending();
+      if(id==='pending')  { fetchPendingList(); renderPending(); }
       if(id==='settings') {
         renderSettings();
         // Ensure settings is visible
@@ -8389,35 +8389,115 @@ function saveSettings() {
   try { localStorage.setItem('cm_settings', JSON.stringify(settingsData)); } catch(e) {}
 }
 
+// Fetch Pending List from Google Sheet
+var pendingListData = []; // stores raw Pending List rows
+
+function fetchPendingList() {
+  var url = localStorage.getItem('cm_apps_url') ||
+    'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
+  if(!url || url.includes('...')) return;
+  var cb = '_pl_' + Date.now();
+  window[cb] = function(rows) {
+    delete window[cb];
+    var s = document.getElementById(cb); if(s) s.remove();
+    if(!Array.isArray(rows) || rows.length < 2) return;
+    // Find header row
+    var hi = 0;
+    for(var h=0; h<Math.min(5,rows.length); h++){
+      var j = rows[h].join('|').toLowerCase();
+      if(j.indexOf('client')>-1 || j.indexOf('name')>-1 || j.indexOf('remark')>-1){hi=h;break;}
+    }
+    pendingListData = [];
+    for(var i=hi+1; i<rows.length; i++){
+      var r = rows[i];
+      if(!r[1] && !r[2]) continue; // skip empty rows
+      pendingListData.push({
+        date: String(r[0]||'').trim(),
+        customer: String(r[1]||'').trim(),
+        itemPrice: parseFloat(r[2])||0,
+        moneyGiven: parseFloat(r[3])||0,
+        moneyFelt: parseFloat(r[4])||0,
+        remark: String(r[5]||'').trim()
+      });
+    }
+    renderPending(); // re-render with new data
+  };
+  var sc = document.createElement('script');
+  sc.id = cb;
+  sc.src = url + '?sheet=' + encodeURIComponent('Pending List') + '&callback=' + cb;
+  sc.onerror = function(){ delete window[cb]; sc.remove(); };
+  document.head.appendChild(sc);
+}
+
 function renderPending() {
   var search = ($('pl-search') ? $('pl-search').value.toLowerCase() : '');
   var filter = ($('pl-filter') ? $('pl-filter').value : 'all');
 
-  // Get sales from S array — status is stored as 'Pending' or 'Approve'
+  // Use Pending List sheet data if available, otherwise fall back to S array
   var pending = [];
-  if(typeof S !== 'undefined') {
-    S.forEach(function(s) {
-      var stat = String(s.status || '').toLowerCase().trim();
+
+  if(pendingListData && pendingListData.length > 0) {
+    // Use real Pending List sheet data
+    pendingListData.forEach(function(s) {
+      var stat = String(s.remark || 'Pending').toLowerCase().trim();
       var isPend = stat === 'pending';
-      var isApprove = stat === 'approve' || stat === 'complete';
+      var isApprove = stat === 'complete' || stat === 'approve';
       var matchFilter = filter === 'all' ||
                         (filter === 'pending' && isPend) ||
                         (filter === 'complete' && isApprove);
       if(matchFilter) {
-        var name = String(s.customer || s.name || '').toLowerCase();
+        var name = String(s.customer || '').toLowerCase();
         if(!search || name.includes(search)) {
-          pending.push(s);
+          pending.push({
+            date: s.date,
+            customer: s.customer,
+            revenue: s.itemPrice,
+            moneyGiven: s.moneyGiven,
+            moneyFelt: s.moneyFelt,
+            status: isPend ? 'Pending' : 'Approve'
+          });
         }
       }
     });
+  } else {
+    // Fall back to S array (Sheet8 data)
+    if(typeof S !== 'undefined') {
+      S.forEach(function(s) {
+        var stat = String(s.status || '').toLowerCase().trim();
+        var isPend = stat === 'pending';
+        var isApprove = stat === 'approve' || stat === 'complete';
+        var matchFilter = filter === 'all' ||
+                          (filter === 'pending' && isPend) ||
+                          (filter === 'complete' && isApprove);
+        if(matchFilter) {
+          var name = String(s.customer || s.name || '').toLowerCase();
+          if(!search || name.includes(search)) {
+            pending.push({
+              date: s.date,
+              customer: s.customer,
+              revenue: s.revenue,
+              moneyGiven: isPend ? 0 : s.revenue,
+              moneyFelt: isPend ? s.revenue : 0,
+              status: s.status
+            });
+          }
+        }
+      });
+    }
   }
 
   // Sort by date desc
   pending.sort(function(a,b){ return String(b.date).localeCompare(String(a.date)); });
 
-  // Stats — count all sales correctly
+  // Stats
   var totalOwed=0, totalCollected=0, pendingCount=0;
-  if(typeof S !== 'undefined') {
+  if(pendingListData && pendingListData.length > 0) {
+    pendingListData.forEach(function(s){
+      var stat = String(s.remark||'').toLowerCase().trim();
+      if(stat==='pending'){totalOwed+=s.moneyFelt||0;pendingCount++;}
+      else{totalCollected+=s.moneyGiven||0;}
+    });
+  } else if(typeof S !== 'undefined') {
     S.forEach(function(s){
       var stat = String(s.status||'').toLowerCase().trim();
       if(stat==='pending'){totalOwed+=(s.revenue||0);pendingCount++;}
