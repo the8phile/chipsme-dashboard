@@ -9168,6 +9168,29 @@ window.addEventListener('DOMContentLoaded', function() {
     set('stime', S.length + ' rows · ' + ageStr);
     showSyncStatus('ok', 'Loaded ' + S.length + ' transactions from cache');
   } else {
+    // No cache — parse RAW embedded data into S so pages work immediately
+    try {
+      var rawLines = RAW.trim().split('\n');
+      var rawSales = [];
+      for(var ri = 1; ri < rawLines.length; ri++) {
+        var cols = rawLines[ri].split(',');
+        if(cols.length < 9) continue;
+        var rawRev = parseFloat(cols[6]) || 0;
+        if(rawRev <= 0) continue;
+        var rawStat = String(cols[8]||'').trim();
+        if(rawStat !== 'Approve' && rawStat !== 'Pending') rawStat = 'Approve';
+        rawSales.push({
+          date: String(cols[1]||'').trim(),
+          customer: String(cols[2]||'').trim(),
+          product: String(cols[3]||'').trim(),
+          packets: parseFloat(cols[4])||0,
+          revenue: rawRev,
+          profit: parseFloat(cols[7])||0,
+          status: rawStat
+        });
+      }
+      if(rawSales.length > 0) S = rawSales;
+    } catch(rawErr) {}
     set('stime', 'Embedded data · click Sync for latest');
   }
 
