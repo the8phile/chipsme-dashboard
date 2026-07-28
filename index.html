@@ -8393,12 +8393,17 @@ function renderPending() {
   var search = ($('pl-search') ? $('pl-search').value.toLowerCase() : '');
   var filter = ($('pl-filter') ? $('pl-filter').value : 'all');
 
-  // Get pending sales from S array
+  // Get sales from S array — status is stored as 'Pending' or 'Approve'
   var pending = [];
   if(typeof S !== 'undefined') {
     S.forEach(function(s) {
-      var stat = String(s.status || '').toLowerCase();
-      if(filter === 'all' || filter === stat) {
+      var stat = String(s.status || '').toLowerCase().trim();
+      var isPend = stat === 'pending';
+      var isApprove = stat === 'approve' || stat === 'complete';
+      var matchFilter = filter === 'all' ||
+                        (filter === 'pending' && isPend) ||
+                        (filter === 'complete' && isApprove);
+      if(matchFilter) {
         var name = String(s.customer || s.name || '').toLowerCase();
         if(!search || name.includes(search)) {
           pending.push(s);
@@ -8410,11 +8415,11 @@ function renderPending() {
   // Sort by date desc
   pending.sort(function(a,b){ return String(b.date).localeCompare(String(a.date)); });
 
-  // Stats
+  // Stats — count all sales correctly
   var totalOwed=0, totalCollected=0, pendingCount=0;
   if(typeof S !== 'undefined') {
     S.forEach(function(s){
-      var stat = String(s.status||'').toLowerCase();
+      var stat = String(s.status||'').toLowerCase().trim();
       if(stat==='pending'){totalOwed+=(s.revenue||0);pendingCount++;}
       else if(stat==='approve'||stat==='complete'){totalCollected+=(s.revenue||0);}
     });
@@ -8441,7 +8446,7 @@ function renderPending() {
     var remarkColor = isPending ? '#F59E0B' : '#00D68F';
     var remarkBg    = isPending ? 'rgba(245,158,11,.1)' : 'rgba(0,214,143,.1)';
     var remarkBdr   = isPending ? 'rgba(245,158,11,.2)' : 'rgba(0,214,143,.2)';
-    var remarkText  = isPending ? 'Pending' : 'Complete';
+    var remarkText  = isPending ? 'Pending' : (String(s.status||'').toLowerCase()==='approve'?'Approve':'Complete');
 
     var cursor = isPending ? 'pointer' : 'default';
     var mfColor = isPending ? '#F43F5E' : '#475569';
@@ -8466,7 +8471,7 @@ function markPendingPaid(idx) {
   var s = window._pendingRows ? window._pendingRows[idx] : null;
   if(!s) return;
   var stat = String(s.status||'').toLowerCase();
-  if(stat !== 'pending') return;
+  if(stat !== 'pending' && stat !== 'Pending') return;
   if(!confirm('Mark ' + (s.customer||s.name) + ' as Complete? They paid ' + fmt(s.revenue||0) + ' FCFA.')) return;
   // Update in S array
   if(typeof S !== 'undefined') {
