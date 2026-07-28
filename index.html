@@ -8393,43 +8393,25 @@ function saveSettings() {
 var pendingListData = []; // stores raw Pending List rows
 
 function fetchPendingList() {
-  // Use the correct latest Apps Script URL
-  var url = localStorage.getItem('cm_apps_url') ||
-    localStorage.getItem(APPS_SCRIPT_KEY) ||
-    APPS_URL_BAKED;
-  if(!url || url.includes('...')) return;
-  var cb = '_pl_' + Date.now();
-  window[cb] = function(rows) {
-    delete window[cb];
-    var s = document.getElementById(cb); if(s) s.remove();
-    if(!Array.isArray(rows) || rows.length < 2) return;
-    // Find header row - look for 'client', 'name', 'price', or 'remark'
-    var hi = 0;
-    for(var h=0; h<Math.min(10,rows.length); h++){
-      var j = rows[h].join('|').toLowerCase();
-      if(j.indexOf('client')>-1 || j.indexOf('remark')>-1 || j.indexOf('price')>-1){hi=h;break;}
-    }
-    Logger && Logger.log && Logger.log('Pending List header at row: '+hi);
-    pendingListData = [];
-    for(var i=hi+1; i<rows.length; i++){
-      var r = rows[i];
-      if(!r[1] && !r[2]) continue; // skip empty rows
+  // Read from S array (already synced from Sheet8)
+  // No separate API call needed
+  pendingListData = [];
+  if(typeof S !== 'undefined' && S.length > 0) {
+    S.forEach(function(s) {
+      var stat = String(s.status||'').trim();
+      var rev = s.revenue || 0;
+      var isPend = stat.toLowerCase() === 'pending';
       pendingListData.push({
-        date: String(r[0]||'').trim(),
-        customer: String(r[1]||'').trim(),
-        itemPrice: parseFloat(r[2])||0,
-        moneyGiven: parseFloat(r[3])||0,
-        moneyFelt: parseFloat(r[4])||0,
-        remark: String(r[5]||'').trim()
+        date: s.date || '',
+        customer: s.customer || s.name || '',
+        itemPrice: rev,
+        moneyGiven: isPend ? 0 : rev,
+        moneyFelt: isPend ? rev : 0,
+        remark: stat
       });
-    }
-    renderPending(); // re-render with new data
-  };
-  var sc = document.createElement('script');
-  sc.id = cb;
-  sc.src = url + '?sheet=' + encodeURIComponent('Pending List') + '&callback=' + cb;
-  sc.onerror = function(){ delete window[cb]; sc.remove(); };
-  document.head.appendChild(sc);
+    });
+  }
+  renderPending();
 }
 
 function renderPending() {
