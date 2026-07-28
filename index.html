@@ -8355,7 +8355,7 @@ function nav(id, btn) {
       if(id==='insights')  renderInsights();
       if(id==='loan')      renderLoan();
       if(id==='assets')    renderAssetsPage();
-      if(id==='pending')  { renderPending(); setTimeout(fetchPendingList, 500); }
+      if(id==='pending')  { fetchPendingList(); }
       if(id==='settings') {
         renderSettings();
         // Ensure settings is visible
@@ -8393,14 +8393,24 @@ function saveSettings() {
 var pendingListData = []; // stores raw Pending List rows
 
 function fetchPendingList() {
-  // Read from S array (already synced from Sheet8)
-  // No separate API call needed
   pendingListData = [];
-  if(typeof S !== 'undefined' && S.length > 0) {
-    S.forEach(function(s) {
-      var stat = String(s.status||'').trim();
-      var rev = s.revenue || 0;
-      var isPend = stat.toLowerCase() === 'pending';
+  
+  // Try S array first
+  var src = (typeof S !== 'undefined' && S.length > 0) ? S : [];
+  
+  // If S is empty, try cached data
+  if(src.length === 0) {
+    try {
+      var cached = JSON.parse(localStorage.getItem('cm_cached_data') || 'null');
+      if(cached && cached.data && cached.data.length > 0) src = cached.data;
+    } catch(e){}
+  }
+
+  src.forEach(function(s) {
+    var stat = String(s.status || '').trim();
+    var rev = parseFloat(s.revenue) || 0;
+    var isPend = stat.toLowerCase() === 'pending';
+    if(rev > 0) {
       pendingListData.push({
         date: s.date || '',
         customer: s.customer || s.name || '',
@@ -8409,8 +8419,9 @@ function fetchPendingList() {
         moneyFelt: isPend ? rev : 0,
         remark: stat
       });
-    });
-  }
+    }
+  });
+
   renderPending();
 }
 
