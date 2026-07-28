@@ -2881,6 +2881,7 @@ Value:    AIza...your-key-here...</pre>
   <div class="nsec" data-en="Business" data-fr="Affaires">Business</div>
   <button class="ni" onclick="nav('loan',this)"><span class="nic" style="display:flex;align-items:center;justify-content:center;width:20px;height:20px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18"/><path d="M3 15h18"/><path d="M8 3L5 21"/><path d="M16 3l-3 18"/></svg></span><span class="nlabel" data-en="Loan File" data-fr="Dossier Prêt">Loan File</span></button>
   <button class="ni" onclick="nav('assets',this)"><span class="nic" style="display:flex;align-items:center;justify-content:center;width:20px;height:20px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M7 15h2M11 15h6"/></svg></span><span class="nlabel" data-en="Assets & Net Worth" data-fr="Actifs & Valeur Nette">Assets & Net Worth</span></button>
+  <button class="ni" onclick="nav('pending',this)"><span class="nic" style="display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><span class="nit" data-fr="Paiements En Attente">Pending Payments</span></button>
   <button class="ni" onclick="nav('settings',this)"><span class="nic" style="display:flex;align-items:center;justify-content:center;width:20px;height:20px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span><span class="nlabel" data-en="Settings" data-fr="Paramètres">Settings</span></button>
   <div class="sbot">
     <button class="sbtn" onclick="syncSheet()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" id="sdot"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg><span class="slabel" data-en="Sync Google Sheet" data-fr="Synchroniser">Sync Google Sheet</span></button>
@@ -3775,6 +3776,61 @@ Value:    AIza...your-key-here...</pre>
 </div><!-- /page-assets -->
 
 <!-- ══ SETTINGS PAGE ══ -->
+<div id="page-pending" class="page">
+
+  <!-- Header Stats -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+    <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:22px;font-weight:800;color:#F43F5E;font-family:monospace" id="pl-total">0 F</div>
+      <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Total Owed</div>
+    </div>
+    <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:22px;font-weight:800;color:#F59E0B;font-family:monospace" id="pl-count">0</div>
+      <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Customers</div>
+    </div>
+    <div style="background:#0F172A;border:1px solid #1E293B;border-radius:14px;padding:16px;text-align:center">
+      <div style="font-size:22px;font-weight:800;color:#00D68F;font-family:monospace" id="pl-collected">0 F</div>
+      <div style="font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-top:4px">Collected</div>
+    </div>
+  </div>
+
+  <!-- Search & Filter -->
+  <div style="display:flex;gap:10px;margin-bottom:16px">
+    <input id="pl-search" type="text" placeholder="Search customer..." oninput="renderPending()"
+      style="flex:1;background:#0F172A;border:1px solid #1E293B;border-radius:10px;padding:10px 14px;color:#F1F5F9;font-size:13px;font-family:inherit;outline:none"/>
+    <select id="pl-filter" onchange="renderPending()"
+      style="background:#0F172A;border:1px solid #1E293B;border-radius:10px;padding:10px 14px;color:#F1F5F9;font-size:13px;font-family:inherit;outline:none;cursor:pointer">
+      <option value="all">All</option>
+      <option value="pending">Pending</option>
+      <option value="complete">Complete</option>
+    </select>
+  </div>
+
+  <!-- Pending Table -->
+  <div style="background:#0F172A;border:1px solid #1E293B;border-radius:16px;overflow:hidden;margin-bottom:20px">
+    <!-- Table Header -->
+    <div style="display:grid;grid-template-columns:100px 1fr 90px 90px 90px 90px;gap:0;background:#111827;padding:10px 16px;border-bottom:1px solid #1E293B">
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px">Date</div>
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px">Client</div>
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;text-align:right">Item Price</div>
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;text-align:right">Money Given</div>
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;text-align:right">Money Felt</div>
+      <div style="font-size:10px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.5px;text-align:center">Remark</div>
+    </div>
+    <!-- Table Body -->
+    <div id="pl-body">
+      <div style="padding:40px;text-align:center;color:#334155;font-size:13px">Loading pending payments...</div>
+    </div>
+  </div>
+
+  <!-- Mark as Paid button hint -->
+  <div style="background:#0F172A;border:1px solid rgba(0,214,143,.2);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px">
+    <div style="font-size:20px">&#128161;</div>
+    <div style="font-size:13px;color:#94A3B8;line-height:1.6">Tap any <span style="color:#F59E0B;font-weight:600">Pending</span> row to mark it as <span style="color:#00D68F;font-weight:600">Complete</span> when the customer pays.</div>
+  </div>
+
+</div>
+
 <div id="page-settings" class="page">
 
 <!-- Profile Card -->
@@ -8299,6 +8355,7 @@ function nav(id, btn) {
       if(id==='insights')  renderInsights();
       if(id==='loan')      renderLoan();
       if(id==='assets')    renderAssetsPage();
+      if(id==='pending')  renderPending();
       if(id==='settings') {
         renderSettings();
         // Ensure settings is visible
@@ -8330,6 +8387,100 @@ function loadSettings() {
 
 function saveSettings() {
   try { localStorage.setItem('cm_settings', JSON.stringify(settingsData)); } catch(e) {}
+}
+
+function renderPending() {
+  var search = ($('pl-search') ? $('pl-search').value.toLowerCase() : '');
+  var filter = ($('pl-filter') ? $('pl-filter').value : 'all');
+
+  // Get pending sales from S array
+  var pending = [];
+  if(typeof S !== 'undefined') {
+    S.forEach(function(s) {
+      var stat = String(s.status || '').toLowerCase();
+      if(filter === 'all' || filter === stat) {
+        var name = String(s.customer || s.name || '').toLowerCase();
+        if(!search || name.includes(search)) {
+          pending.push(s);
+        }
+      }
+    });
+  }
+
+  // Sort by date desc
+  pending.sort(function(a,b){ return String(b.date).localeCompare(String(a.date)); });
+
+  // Stats
+  var totalOwed=0, totalCollected=0, pendingCount=0;
+  if(typeof S !== 'undefined') {
+    S.forEach(function(s){
+      var stat = String(s.status||'').toLowerCase();
+      if(stat==='pending'){totalOwed+=(s.revenue||0);pendingCount++;}
+      else if(stat==='approve'||stat==='complete'){totalCollected+=(s.revenue||0);}
+    });
+  }
+  set('pl-total', fmt(totalOwed)+' F');
+  set('pl-count', pendingCount);
+  set('pl-collected', fmt(totalCollected)+' F');
+
+  var body = $('pl-body');
+  if(!body) return;
+
+  if(!pending.length) {
+    body.innerHTML = '<div style="padding:40px;text-align:center;color:#334155;font-size:13px">'+(filter==='pending'?'No pending payments':'No records found')+'</div>';
+    return;
+  }
+
+  var html = pending.map(function(s, idx) {
+    var stat = String(s.status||'pending').toLowerCase();
+    var isPending = stat === 'pending';
+    var rev = s.revenue || 0;
+    var moneyGiven = isPending ? 0 : rev;   // if complete, full amount given
+    var moneyFelt  = isPending ? rev : 0;   // if complete, nothing owed
+
+    var remarkColor = isPending ? '#F59E0B' : '#00D68F';
+    var remarkBg    = isPending ? 'rgba(245,158,11,.1)' : 'rgba(0,214,143,.1)';
+    var remarkBdr   = isPending ? 'rgba(245,158,11,.2)' : 'rgba(0,214,143,.2)';
+    var remarkText  = isPending ? 'Pending' : 'Complete';
+
+    var cursor = isPending ? 'pointer' : 'default';
+    var mfColor = isPending ? '#F43F5E' : '#475569';
+    var rowStyle = 'display:grid;grid-template-columns:100px 1fr 90px 90px 90px 90px;gap:0;padding:12px 16px;border-bottom:1px solid #1E293B;cursor:'+cursor+';transition:background .15s';
+    return '<div onclick="markPendingPaid('+idx+')" style="'+rowStyle+'">'
+      + '<div style="font-size:12px;color:#475569;align-self:center">'+String(s.date||'').split('-').join(' ')+'</div>'
+      + '<div style="font-size:13px;font-weight:600;color:#F1F5F9;align-self:center">'+String(s.customer||s.name||'&mdash;')+'</div>'
+      + '<div style="font-size:13px;font-weight:700;color:#F1F5F9;text-align:right;align-self:center;font-family:monospace">'+fmt(rev)+'</div>'
+      + '<div style="font-size:13px;font-weight:700;color:#00D68F;text-align:right;align-self:center;font-family:monospace">'+fmt(moneyGiven)+'</div>'
+      + '<div style="font-size:13px;font-weight:700;color:'+mfColor+';text-align:right;align-self:center;font-family:monospace">'+fmt(moneyFelt)+'</div>'
+      + '<div style="text-align:center;align-self:center"><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:'+remarkBg+';color:'+remarkColor+';border:1px solid '+remarkBdr+'">'+remarkText+'</span></div>'
+      + '</div>';
+  }).join('');
+
+  body.innerHTML = html;
+  // Store for markPaid
+  window._pendingRows = pending;
+}
+
+var _pendingRows = [];
+function markPendingPaid(idx) {
+  var s = window._pendingRows ? window._pendingRows[idx] : null;
+  if(!s) return;
+  var stat = String(s.status||'').toLowerCase();
+  if(stat !== 'pending') return;
+  if(!confirm('Mark ' + (s.customer||s.name) + ' as Complete? They paid ' + fmt(s.revenue||0) + ' FCFA.')) return;
+  // Update in S array
+  if(typeof S !== 'undefined') {
+    S.forEach(function(sale) {
+      if(sale.customer===s.customer && sale.date===s.date && String(sale.status||'').toLowerCase()==='pending') {
+        sale.status = 'Approve';
+      }
+    });
+  }
+  // Save to cache
+  try { localStorage.setItem('cm_cached_data', JSON.stringify({ts:Date.now(),data:S})); } catch(e){}
+  toast('✅ ' + (s.customer||s.name) + ' marked as paid!');
+  renderPending();
+  if(typeof renderOV==='function') setTimeout(renderOV, 300);
 }
 
 function renderSettings() {
@@ -8756,7 +8907,7 @@ document.addEventListener('click',function(e){
   const sr=$('search-results');
   if(sr&&!sr.contains(e.target)&&e.target.id!=='global-search') sr.style.display='none';
 });
-const TITLES={overview:'Overview',sales:'Sales Log',customers:'Customers',stock:'Stock Tracker',daily:'Daily Profit',expenses:'Expenses',invoice:'Invoice Generator',health:'Business Health Score',forecast:'Revenue Forecast',insights:'Insights',loan:'Loan File',assets:'Assets & Net Worth',settings:'Settings'};
+const TITLES={overview:'Overview',sales:'Sales Log',customers:'Customers',stock:'Stock Tracker',daily:'Daily Profit',expenses:'Expenses',invoice:'Invoice Generator',health:'Business Health Score',forecast:'Revenue Forecast',insights:'Insights',loan:'Loan File',assets:'Assets & Net Worth',pending:'Pending Payments',settings:'Settings'};
 const SUBS={overview:'Live data from Google Sheet',sales:'All transactions recorded',customers:'Loyalty & profitability analysis',stock:'Live inventory management',daily:'Enter sales to see real-time profit',expenses:'Track all business costs accurately',invoice:'Generate branded invoices',health:'Business intelligence score out of 100',forecast:'AI-powered revenue projection',insights:'Smart alerts from your business data',loan:'Complete microfinance pitch package',assets:'Assets, liabilities, expenses & net worth',settings:'Preferences, sync & business info'};
 // nav() defined above with mobile support
 
