@@ -8355,7 +8355,7 @@ function nav(id, btn) {
       if(id==='insights')  renderInsights();
       if(id==='loan')      renderLoan();
       if(id==='assets')    renderAssetsPage();
-      if(id==='pending')  { fetchPendingList(); renderPending(); }
+      if(id==='pending')  { renderPending(); setTimeout(fetchPendingList, 500); }
       if(id==='settings') {
         renderSettings();
         // Ensure settings is visible
@@ -8393,20 +8393,23 @@ function saveSettings() {
 var pendingListData = []; // stores raw Pending List rows
 
 function fetchPendingList() {
+  // Use the correct latest Apps Script URL
   var url = localStorage.getItem('cm_apps_url') ||
-    'https://script.google.com/macros/s/AKfycbxwZeA5t13Iti2aFFBJeeMTOBEgyXKPLn29yp89OqfGlGBvtyuPcYmhvMbxQ2Ttyi5x/exec';
+    localStorage.getItem(APPS_SCRIPT_KEY) ||
+    APPS_URL_BAKED;
   if(!url || url.includes('...')) return;
   var cb = '_pl_' + Date.now();
   window[cb] = function(rows) {
     delete window[cb];
     var s = document.getElementById(cb); if(s) s.remove();
     if(!Array.isArray(rows) || rows.length < 2) return;
-    // Find header row
+    // Find header row - look for 'client', 'name', 'price', or 'remark'
     var hi = 0;
-    for(var h=0; h<Math.min(5,rows.length); h++){
+    for(var h=0; h<Math.min(10,rows.length); h++){
       var j = rows[h].join('|').toLowerCase();
-      if(j.indexOf('client')>-1 || j.indexOf('name')>-1 || j.indexOf('remark')>-1){hi=h;break;}
+      if(j.indexOf('client')>-1 || j.indexOf('remark')>-1 || j.indexOf('price')>-1){hi=h;break;}
     }
+    Logger && Logger.log && Logger.log('Pending List header at row: '+hi);
     pendingListData = [];
     for(var i=hi+1; i<rows.length; i++){
       var r = rows[i];
@@ -8451,9 +8454,9 @@ function renderPending() {
           pending.push({
             date: s.date,
             customer: s.customer,
-            revenue: s.itemPrice,
-            moneyGiven: s.moneyGiven,
-            moneyFelt: s.moneyFelt,
+            revenue: s.itemPrice || 0,
+            moneyGiven: s.moneyGiven || 0,
+            moneyFelt: s.moneyFelt || 0,
             status: isPend ? 'Pending' : 'Approve'
           });
         }
@@ -8520,8 +8523,9 @@ function renderPending() {
     var stat = String(s.status||'pending').toLowerCase();
     var isPending = stat === 'pending';
     var rev = s.revenue || 0;
-    var moneyGiven = isPending ? 0 : rev;   // if complete, full amount given
-    var moneyFelt  = isPending ? rev : 0;   // if complete, nothing owed
+    // Use actual money values if available (from Pending List sheet)
+    var moneyGiven = (s.moneyGiven !== undefined) ? s.moneyGiven : (isPending ? 0 : rev);
+    var moneyFelt  = (s.moneyFelt  !== undefined) ? s.moneyFelt  : (isPending ? rev : 0);
 
     var remarkColor = isPending ? '#F59E0B' : '#00D68F';
     var remarkBg    = isPending ? 'rgba(245,158,11,.1)' : 'rgba(0,214,143,.1)';
