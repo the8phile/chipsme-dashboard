@@ -2389,6 +2389,20 @@ const ChipMeOffline = (function() {
           </button>
         </div>
       </div>
+      <!-- Money Given (shown when Pending selected) -->
+      <div id="money-given-section" style="display:none">
+        <label style="display:block;font-size:11px;font-weight:700;color:var(--text3);
+          text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px">
+          💵 Money Given (already paid)
+        </label>
+        <input type="number" id="sale-money-given" placeholder="0" min="0" value="0"
+          style="width:100%;padding:13px 16px;border-radius:12px;border:1px solid rgba(245,158,11,.3);
+          background:rgba(245,158,11,.05);color:var(--text);font-family:inherit;font-size:15px;outline:none">
+        <div style="font-size:11px;color:var(--text3);margin-top:5px">
+          Money Felt (still owed) = Item Price − Money Given
+        </div>
+      </div>
+
       <!-- Submit -->
       <button onclick="submitSale()" id="sale-submit-btn"
         style="width:100%;padding:16px;border-radius:14px;
@@ -9446,6 +9460,9 @@ var saleStatus = 'Approve';
 function openSaleModal() {
   var modal=document.getElementById('sale-modal');
   var sheet=document.getElementById('sale-sheet');
+  // Reset money given field
+  var mg=document.getElementById('sale-money-given'); if(mg) mg.value='0';
+  var mgs=document.getElementById('money-given-section'); if(mgs) mgs.style.display='none';
   var backdrop=document.getElementById('sale-backdrop');
   var icon=document.getElementById('fab-icon');
   if(!modal) return;
@@ -9486,6 +9503,9 @@ function closeSaleModal() {
 function setSaleStatus(status) {
   saleStatus=status;
   var a=document.getElementById('btn-approve'), p=document.getElementById('btn-pending');
+  // Show/hide Money Given field
+  var mgSection = document.getElementById('money-given-section');
+  if(mgSection) mgSection.style.display = status==='Pending' ? 'block' : 'none';
   if(a){
     a.style.borderColor=status==='Approve'?'rgba(0,214,143,.5)':'var(--border)';
     a.style.background =status==='Approve'?'rgba(0,214,143,.15)':'transparent';
@@ -9535,8 +9555,12 @@ async function submitSale() {
   var fmtDate=d.getDate()+'-'+MNS[d.getMonth()]+'-'+d.getFullYear();
   var revenue=packets*unitPrice, profit=Math.round(revenue*0.1);
 
+  var moneyGiven = saleStatus==='Pending' ?
+    (parseFloat(document.getElementById('sale-money-given').value)||0) : revenue;
+  var moneyFelt = saleStatus==='Pending' ? (revenue - moneyGiven) : 0;
   var saleData={date:fmtDate,customer:customer,product:product,
-    packets:packets,unitPrice:unitPrice,revenue:revenue,profit:profit,status:saleStatus};
+    packets:packets,unitPrice:unitPrice,revenue:revenue,profit:profit,
+    status:saleStatus,moneyGiven:moneyGiven,moneyFelt:moneyFelt};
 
   var btn=document.getElementById('sale-submit-btn');
   if(btn){btn.textContent='Saving...';btn.style.opacity='0.7';}
@@ -9600,7 +9624,9 @@ function sendSaleToSheet(data) {
       +'&product='+encodeURIComponent(data.product)
       +'&packets='+data.packets+'&unitPrice='+data.unitPrice
       +'&revenue='+data.revenue+'&profit='+data.profit
-      +'&status='+encodeURIComponent(data.status);
+      +'&status='+encodeURIComponent(data.status)
+      +'&moneyGiven='+(data.moneyGiven||0)
+      +'&moneyFelt='+(data.moneyFelt||data.revenue||0);
     script.onerror=function(){clearTimeout(t);delete window[cb];reject(new Error('Network'));};
     document.head.appendChild(script);
   });
